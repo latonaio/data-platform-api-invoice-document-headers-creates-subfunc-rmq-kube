@@ -6,7 +6,7 @@ import (
 	"strings"
 )
 
-func (f *SubFunction) OrdersHeaderPartner(
+func (f *SubFunction) HeaderOrdersHeaderPartner(
 	sdc *api_input_reader.SDC,
 	psdc *api_processing_data_formatter.SDC,
 ) (*[]api_processing_data_formatter.HeaderOrdersHeaderPartner, error) {
@@ -35,7 +35,7 @@ func (f *SubFunction) OrdersHeaderPartner(
 	return data, err
 }
 
-func (f *SubFunction) DeliveryDocumentHeaderPartner(
+func (f *SubFunction) HeaderDeliveryDocumentHeaderPartner(
 	sdc *api_input_reader.SDC,
 	psdc *api_processing_data_formatter.SDC,
 ) (*[]api_processing_data_formatter.HeaderDeliveryDocumentHeaderPartner, error) {

@@ -19,7 +19,9 @@ func (f *SubFunction) OrdersHeader(
 	}
 
 	rows, err := f.db.Query(
-		`SELECT OrderID, TotalNetAmount, TransactionCurrency, TotalTaxAmount, TotalGrossAmount, Incoterms, PaymentTerms, PaymentMethod, BillToCountry, BillFromCountry
+		`SELECT OrderID, OrderType, Buyer, Seller, ContractType, VaridityStartDate, VaridityEndDate, InvoiceScheduleStartDate,
+		InvoiceScheduleEndDate, TotalNetAmount, TotalTaxAmount, TotalGrossAmount, TransactionCurrency, PricingDate, Incoterms,
+		BillFromCountry, BillToCountry, Payer, Payee, PaymentTerms, PaymentMethod, IsExportImportDelivery
 		FROM DataPlatformMastersAndTransactionsMysqlKube.data_platform_orders_header_data
 		WHERE OrderID IN ( `+repeat+` );`, args...,
 	)
@@ -35,7 +37,7 @@ func (f *SubFunction) OrdersHeader(
 	return data, err
 }
 
-func (f *SubFunction) DeliveryDocumentHeader(
+func (f *SubFunction) HeaderDeliveryDocumentHeader(
 	sdc *api_input_reader.SDC,
 	psdc *api_processing_data_formatter.SDC,
 ) (*[]api_processing_data_formatter.HeaderDeliveryDocumentHeader, error) {
@@ -48,15 +50,9 @@ func (f *SubFunction) DeliveryDocumentHeader(
 	}
 
 	rows, err := f.db.Query(
-		`SELECT DeliveryDocument, Buyer, Seller, ReferenceDocument, ReferenceDocumentItem, OrderID, OrderItem,
-		ContractType, OrderValidityStartDate, OrderValidityEndDate, InvoiceScheduleStartDate, InvoiceScheduleEndDate,
-		DocumentDate, PlannedGoodsIssueDate, PlannedGoodsIssueTime,
-		PlannedGoodsReceiptDate, PlannedGoodsReceiptTime, BillingDocumentDate, CompleteDeliveryIsDefined, OverallDeliveryStatus,
-		CreationDate, CreationTime, IssuingBlockReason, ReceivingBlockReason, GoodsIssueOrReceiptSlipNumber, HeaderBillingStatus,
-		HeaderBillingConfStatus, HeaderBillingBlockReason, HeaderGrossWeight, HeaderNetWeight, HeaderWeightUnit, Incoterms,
-		BillToCountry, BillFromCountry, IsExportImportDelivery, LastChangeDate, IssuingPlantBusinessPartner, IssuingPlant,
-		ReceivingPlantBusinessPartner, ReceivingPlant, DeliverToParty, DeliverFromParty, TransactionCurrency, 
-		OverallDelivReltdBillgStatus, StockIsFullyConfirmed
+		`SELECT DeliveryDocument, Buyer, Seller, OrderID, OrderItem, ContractType, OrderValidityStartDate,
+		OrderValidityEndDate, InvoiceScheduleStartDate, InvoiceScheduleEndDate, GoodsIssueOrReceiptSlipNumber,
+		Incoterms, BillToCountry, BillFromCountry, Payer, Payee, IsExportImportDelivery, TransactionCurrency
 		FROM DataPlatformMastersAndTransactionsMysqlKube.data_platform_delivery_document_header_data
 		WHERE DeliveryDocument IN ( `+repeat+` );`, args...,
 	)

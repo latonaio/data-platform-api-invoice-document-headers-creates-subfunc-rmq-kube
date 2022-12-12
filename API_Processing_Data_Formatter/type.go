@@ -3,7 +3,9 @@ package api_processing_data_formatter
 type SDC struct {
 	MetaData                            *MetaData                              `json:"MetaData"`
 	OrderID                             *[]OrderID                             `json:"OrderID"`
+	OrdersHeaderPartner                 *[]OrdersHeaderPartner                 `json:"OrdersHeaderPartner"`
 	DeliveryDocument                    *[]DeliveryDocument                    `json:"DeliveryDocument"`
+	DeliveryDocumentHeaderPartner       *[]DeliveryDocumentHeaderPartner       `json:"DeliveryDocumentHeaderPartner"`
 	CalculateInvoiceDocument            *CalculateInvoiceDocument              `json:"CalculateInvoiceDocument"`
 	HeaderOrdersHeader                  *[]HeaderOrdersHeader                  `json:"HeaderOrdersHeader"`
 	HeaderDeliveryDocumentHeader        *[]HeaderDeliveryDocumentHeader        `json:"HeaderDeliveryDocumentHeader"`
@@ -17,103 +19,123 @@ type MetaData struct {
 }
 
 type OrderIDKey struct {
+	OrderID                         *int   `json:"OrderID"`
+	BillFromPartyFrom               *int   `json:"BillFromPartyFrom"`
+	BillFromPartyTo                 *int   `json:"BillFromPartyTo"`
+	BillToPartyFrom                 *int   `json:"BillToPartyFrom"`
+	BillToPartyTo                   *int   `json:"BillToPartyTo"`
+	BillFromParty                   []*int `json:"BillFromParty"`
+	BillToParty                     []*int `json:"BillToParty"`
 	HeaderCompleteDeliveryIsDefined *bool  `json:"HeaderCompleteDeliveryIsDefined"`
-	OverallDeliveryStatus           string `json:"OverallDeliveryStatus"`
+	HeaderDeliveryStatus            string `json:"HeaderDeliveryStatus"`
+	HeaderBillingStatus             string `json:"HeaderBillingStatus"`
+	HeaderBillingBlockStatus        *bool  `json:"HeaderBillingBlockStatus"`
 }
 
 type OrderID struct {
 	InvoiceDocument                 *int   `json:"InvoiceDocument"`
-	OrderID                         *int   `json:"OrderID`
+	OrderID                         *int   `json:"OrderID"`
+	BillFromPartyFrom               *int   `json:"BillFromPartyFrom"`
+	BillFromPartyTo                 *int   `json:"BillFromPartyTo"`
+	BillToPartyFrom                 *int   `json:"BillToPartyFrom"`
+	BillToPartyTo                   *int   `json:"BillToPartyTo"`
+	BillFromParty                   *int   `json:"BillFromParty"`
+	BillToParty                     *int   `json:"BillToParty"`
 	HeaderCompleteDeliveryIsDefined *bool  `json:"HeaderCompleteDeliveryIsDefined"`
-	OverallDeliveryStatus           string `json:"OverallDeliveryStatus"`
+	HeaderDeliveryStatus            string `json:"HeaderDeliveryStatus"`
+	HeaderBillingStatus             string `json:"HeaderBillingStatus"`
+	HeaderBillingBlockStatus        *bool  `json:"HeaderBillingBlockStatus"`
+}
+
+type OrdersHeaderPartner struct {
+	InvoiceDocument *int   `json:"InvoiceDocument"`
+	OrderID         int    `json:"OrderID"`
+	PartnerFunction string `json:"PartnerFunction"`
+	BusinessPartner int    `json:"BusinessPartner"`
 }
 
 type DeliveryDocumentKey struct {
-	CompleteDeliveryIsDefined *bool  `json:"CompleteDeliveryIsDefined"`
-	OverallDeliveryStatus     string `json:"OverallDeliveryStatus"`
+	DeliveryDocument                *int   `json:"DeliveryDocument"`
+	BillFromPartyFrom               *int   `json:"BillFromPartyFrom"`
+	BillFromPartyTo                 *int   `json:"BillFromPartyTo"`
+	BillToPartyFrom                 *int   `json:"BillToPartyFrom"`
+	BillToPartyTo                   *int   `json:"BillToPartyTo"`
+	BillFromParty                   []*int `json:"BillFromParty"`
+	BillToParty                     []*int `json:"BillToParty"`
+	HeaderCompleteDeliveryIsDefined *bool  `json:"HeaderCompleteDeliveryIsDefined"`
+	HeaderDeliveryStatus            string `json:"HeaderDeliveryStatus"`
+	HeaderBillingStatus             string `json:"HeaderBillingStatus"`
+	HeaderBillingBlockStatus        *bool  `json:"HeaderBillingBlockStatus"`
 }
 
 type DeliveryDocument struct {
-	InvoiceDocument           *int   `json:"InvoiceDocument"`
-	DeliveryDocument          *int   `json:"DeliveryDocument`
-	CompleteDeliveryIsDefined *bool  `json:"CompleteDeliveryIsDefined"`
-	OverallDeliveryStatus     string `json:"OverallDeliveryStatus"`
+	InvoiceDocument                 *int   `json:"InvoiceDocument"`
+	DeliveryDocument                *int   `json:"DeliveryDocument"`
+	BillFromPartyFrom               *int   `json:"BillFromPartyFrom"`
+	BillFromPartyTo                 *int   `json:"BillFromPartyTo"`
+	BillToPartyFrom                 *int   `json:"BillToPartyFrom"`
+	BillToPartyTo                   *int   `json:"BillToPartyTo"`
+	BillFromParty                   *int   `json:"BillFromParty"`
+	BillToParty                     *int   `json:"BillToParty"`
+	HeaderCompleteDeliveryIsDefined *bool  `json:"HeaderCompleteDeliveryIsDefined"`
+	HeaderDeliveryStatus            string `json:"HeaderDeliveryStatus"`
+	HeaderBillingStatus             string `json:"HeaderBillingStatus"`
+	HeaderBillingBlockStatus        *bool  `json:"HeaderBillingBlockStatus"`
+}
+
+type DeliveryDocumentHeaderPartner struct {
+	InvoiceDocument  *int   `json:"InvoiceDocument"`
+	DeliveryDocument int    `json:"DeliveryDocument"`
+	PartnerFunction  string `json:"PartnerFunction"`
+	BusinessPartner  int    `json:"BusinessPartner"`
 }
 
 type HeaderOrdersHeader struct {
-	InvoiceDocument         *int     `json:"InvoiceDocument"`
-	OrderID                 *int     `json:"OrderID`
-	InvoiceDocumentType     *string  `json:"InvoiceDocumentType"`
-	BillToParty             *int     `json:"BillToParty"`
-	BillFromParty           *int     `json:"BillFromParty"`
-	BillToPartyLanguage     *string  `json:"BillToPartyLanguage"`
-	BillFromPartyLanguage   *string  `json:"BillFromPartyLanguage"`
-	TotalNetAmount          *float32 `json:"TotalNetAmount"`
-	TransactionCurrency     *string  `json:"TransactionCurrency"`
-	BusinessPartnerCurrency *string  `json:"BusinessPartnerCurrency"`
-	TotalTaxAmount          *float32 `json:"TotalTaxAmount"`
-	TotalGrossAmount        *float32 `json:"TotalGrossAmount"`
-	Incoterms               *string  `json:"Incoterms"`
-	PaymentTerms            *string  `json:"PaymentTerms"`
-	DueCalculationBaseDate  *string  `json:"DueCalculationBaseDate"`
-	PaymentMethod           *string  `json:"PaymentMethod"`
-	BillToAddressID         *int     `json:"BillToAddressID"`
-	BillFromAddressID       *int     `json:"BillFromAddressID"`
-	BillToCountry           *string  `json:"BillToCountry"`
-	BillToLocalRegion       *string  `json:"BillToLocalRegion"`
-	BillFromCountry         *string  `json:"BillFromCountry"`
-	BillFromLocalRegion     *string  `json:"BillFromLocalRegion"`
+	InvoiceDocument          *int    `json:"InvoiceDocument"`
+	OrderID                  *int    `json:"OrderID"`
+	OrderType                string  `json:"OrderType"`
+	Buyer                    int     `json:"Buyer"`
+	Seller                   int     `json:"Seller"`
+	ContractType             *string `json:"ContractType"`
+	VaridityStartDate        *string `json:"VaridityStartDate"`
+	VaridityEndDate          *string `json:"ValidityEndDate"`
+	InvoiceScheduleStartDate *string `json:"InvoiceScheduleStartDate"`
+	InvoiceScheduleEndDate   *string `json:"InvoiceScheduleEndDate"`
+	TotalNetAmount           float32 `json:"TotalNetAmount"`
+	TotalTaxAmount           float32 `json:"TotalTaxAmount"`
+	TotalGrossAmount         float32 `json:"TotalGrossAmount"`
+	TransactionCurrency      string  `json:"TransactionCurrency"`
+	PricingDate              string  `json:"PricingDate"`
+	Incoterms                *string `json:"Incoterms"`
+	BillFromCountry          *string `json:"BillFromCountry"`
+	BillToCountry            *string `json:"BillToCountry"`
+	Payer                    *int    `json:"Payer"`
+	Payee                    *int    `json:"Payee"`
+	PaymentTerms             *string `json:"PaymentTerms"`
+	PaymentMethod            *string `json:"PaymentMethod"`
+	IsExportImportDelivery   *bool   `json:"IsExportImportDelivery"`
 }
 
 type HeaderDeliveryDocumentHeader struct {
-	InvoiceDocument               *int     `json:"InvoiceDocument"`
-	DeliveryDocument              *int     `json:"DeliveryDocument"`
-	Buyer                         *int     `json:"Buyer`
-	Seller                        *int     `json:"Seller"`
-	ReferenceDocument             *int     `json:"ReferenceDocument"`
-	ReferenceDocumentItem         *int     `json:"ReferenceDocumentItem"`
-	OrderID                       *string  `json:"OrderID"`
-	OrderItem                     *string  `json:"OrderItem"`
-	ContractType                  *string  `json:"ContractType"`
-	OrderValidityStartDate        *string  `json:"OrderValidityStartDate"`
-	OrderValidityEndDate          *string  `json:"OrderValidityEndDate"`
-	InvoiceScheduleStartDate      *string  `json:"InvoiceScheduleStartDate"`
-	InvoiceScheduleEndDate        *string  `json:"InvoiceScheduleEndDate"`
-	IssuingPlantTimeZone          *string  `json:"IssuingPlantTimeZone"`
-	ReceivingPlantTimeZone        *string  `json:"ReceivingPlantTimeZone"`
-	DocumentDate                  *string  `json:"DocumentDate"`
-	PlannedGoodsIssueDate         *string  `json:"PlannedGoodsIssueDate"`
-	PlannedGoodsIssueTime         *string  `json:"PlannedGoodsIssueTime"`
-	PlannedGoodsReceiptDate       *string  `json:"PlannedGoodsReceiptDate"`
-	PlannedGoodsReceiptTime       *string  `json:"PlannedGoodsReceiptTime"`
-	BillingDocumentDate           *string  `json:"BillingDocumentDate"`
-	CompleteDeliveryIsDefined     *bool    `json:"CompleteDeliveryIsDefined"`
-	OverallDeliveryStatus         *string  `json:"OverallDeliveryStatus"`
-	CreationDate                  *string  `json:"CreationDate`
-	CreationTime                  *string  `json:"CreationTime"`
-	IssuingBlockReason            *bool    `json:"IssuingBlockReason"`
-	ReceivingBlockReason          *bool    `json:"ReceivingBlockReason"`
-	GoodsIssueOrReceiptSlipNumber *string  `json:"GoodsIssueOrReceiptSlipNumber"`
-	HeaderBillingStatus           *string  `json:"HeaderBillingStatus"`
-	HeaderBillingConfStatus       *string  `json:"HeaderBillingConfStatus"`
-	HeaderBillingBlockReason      *bool    `json:"HeaderBillingBlockReason"`
-	HeaderGrossWeight             *float32 `json:"HeaderGrossWeight"`
-	HeaderNetWeight               *float32 `json:"HeaderNetWeight"`
-	HeaderWeightUnit              *string  `json:"HeaderWeightUnit"`
-	Incoterms                     *string  `json:"Incoterms"`
-	BillToCountry                 *string  `json:"BillToCountry"`
-	BillFromCountry               *string  `json:"BillFromCountry"`
-	IsExportImportDelivery        *bool    `json:"IsExportImportDelivery"`
-	LastChangeDate                *string  `json:"LastChangeDate"`
-	IssuingPlantBusinessPartner   *int     `json:"IssuingPlantBusinessPartner"`
-	IssuingPlant                  *string  `json:"IssuingPlant"`
-	ReceivingPlantBusinessPartner *int     `json:"ReceivingPlantBusinessPartner"`
-	ReceivingPlant                *string  `json:"ReceivingPlant"`
-	DeliverToParty                *int     `json:"DeliverToParty"`
-	DeliverFromParty              *int     `json:"DeliverFromParty"`
-	TransactionCurrency           *string  `json:"TransactionCurrency"`
-	OverallDelivReltdBillgStatus  *string  `json:"OverallDelivReltdBillgStatus"`
-	StockIsFullyConfirmed         *bool    `json:"StockIsFullyConfirmed"`
+	InvoiceDocument               *int    `json:"InvoiceDocument"`
+	DeliveryDocument              *int    `json:"DeliveryDocument"`
+	Buyer                         *int    `json:"Buyer"`
+	Seller                        *int    `json:"Seller"`
+	OrderID                       *string `json:"OrderID"`
+	OrderItem                     *string `json:"OrderItem"`
+	ContractType                  *string `json:"ContractType"`
+	OrderValidityStartDate        *string `json:"OrderValidityStartDate"`
+	OrderValidityEndDate          *string `json:"OrderValidityEndDate"`
+	InvoiceScheduleStartDate      *string `json:"InvoiceScheduleStartDate"`
+	InvoiceScheduleEndDate        *string `json:"InvoiceScheduleEndDate"`
+	GoodsIssueOrReceiptSlipNumber *string `json:"GoodsIssueOrReceiptSlipNumber"`
+	Incoterms                     *string `json:"Incoterms"`
+	BillFromCountry               *string `json:"BillFromCountry"`
+	BillToCountry                 *string `json:"BillToCountry"`
+	Payer                         *int    `json:"Payer"`
+	Payee                         *int    `json:"Payee"`
+	IsExportImportDelivery        *bool   `json:"IsExportImportDelivery"`
+	TransactionCurrency           *string `json:"TransactionCurrency"`
 }
 
 type CalculateInvoiceDocumentKey struct {
@@ -134,30 +156,30 @@ type CalculateInvoiceDocument struct {
 
 type HeaderOrdersHeaderPartner struct {
 	InvoiceDocument         *int    `json:"InvoiceDocument"`
-	OrderID                 *int    `json:"OrderID`
-	PartnerFunction         *string `json"PartnerFunction"`
-	BusinessPartner         *int    `json"BusinessPartner"`
-	BusinessPartnerFullName *string `json"BusinessPartnerFullName"`
-	BusinessPartnerName     *string `json"BusinessPartnerName"`
-	Organization            *string `json"Organization"`
-	Country                 *string `json"Country"`
-	Language                *string `json"Language"`
-	Currency                *string `json"Currency"`
-	ExternalDocumentID      *string `json"ExternalDocumentID"`
-	AddressID               *int    `json"AddressID"`
+	OrderID                 *int    `json:"OrderID"`
+	PartnerFunction         *string `json:"PartnerFunction"`
+	BusinessPartner         *int    `json:"BusinessPartner"`
+	BusinessPartnerFullName *string `json:"BusinessPartnerFullName"`
+	BusinessPartnerName     *string `json:"BusinessPartnerName"`
+	Organization            *string `json:"Organization"`
+	Country                 *string `json:"Country"`
+	Language                *string `json:"Language"`
+	Currency                *string `json:"Currency"`
+	ExternalDocumentID      *string `json:"ExternalDocumentID"`
+	AddressID               *int    `json:"AddressID"`
 }
 
 type HeaderDeliveryDocumentHeaderPartner struct {
 	InvoiceDocument         *int    `json:"InvoiceDocument"`
 	DeliveryDocument        *int    `json:"DeliveryDocument"`
-	PartnerFunction         *string `json"PartnerFunction"`
-	BusinessPartner         *int    `json"BusinessPartner"`
-	BusinessPartnerFullName *string `json"BusinessPartnerFullName"`
-	BusinessPartnerName     *string `json"BusinessPartnerName"`
-	Organization            *string `json"Organization"`
-	Country                 *string `json"Country"`
-	Language                *string `json"Language"`
-	Currency                *string `json"Currency"`
-	ExternalDocumentID      *string `json"ExternalDocumentID"`
-	AddressID               *int    `json"AddressID"`
+	PartnerFunction         *string `json:"PartnerFunction"`
+	BusinessPartner         *int    `json:"BusinessPartner"`
+	BusinessPartnerFullName *string `json:"BusinessPartnerFullName"`
+	BusinessPartnerName     *string `json:"BusinessPartnerName"`
+	Organization            *string `json:"Organization"`
+	Country                 *string `json:"Country"`
+	Language                *string `json:"Language"`
+	Currency                *string `json:"Currency"`
+	ExternalDocumentID      *string `json:"ExternalDocumentID"`
+	AddressID               *int    `json:"AddressID"`
 }

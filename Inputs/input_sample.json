@@ -7,6 +7,23 @@
 	"runtime_session_id": "boi9ar543dg91ipdnspi099u231280ab0v8af0ew",
 	"business_partner": 201,
 	"service_label": "INVOICE_DOCUMENT",
+  "InvoiceDocumentInputParameters":
+  {
+    "BillFromParty": [101],
+    "BillFromPartyFrom": 101,
+    "BillFromPartyTo": 101,
+    "BillToParty": [201],
+    "BillToPartyFrom": 201,
+    "BillToPartyTo": 201,
+    "ConfirmedDeliveryDate": ["", ""],
+    "ConfirmedDeliveryDateFrom": "2022-01-01",
+    "ConfirmedDeliveryDateTo": "2022-12-31",
+    "ActualGoodsIssueDate": ["", ""],
+    "ActualGoodsIssueDateFrom": "2022-01-01",
+    "ActualGoodsIssueDateTo": "2022-12-31",
+    "ReferenceDocument": 80000023,
+    "ReferenceDocumentItem": null
+  },
   "InvoiceDocument":{
     "InvoiceDocument":null,
     "CreationDate":"",
@@ -34,6 +51,7 @@
     "PaymentBlockingReason":null,
     "ExternalReferenceDocument":"",
     "DocumentHeaderText":"",
+    "HeaderPaymentRequisitionIsCreated":null,
     "HeaderPartner":[
       {
         "PartnerFunction":"",
@@ -140,6 +158,7 @@
         "TaxCode":"",
         "TaxRate":null,
         "CountryOfOrigin":"",
+        "ItemPaymentRequisitionIsCreated":null,
         "ItemPartner":{
           "PartnerFunction":"",
           "BusinessPartner":null

@@ -2,7 +2,15 @@ package requests
 
 type OrderID struct {
 	InvoiceDocument                 *int   `json:"InvoiceDocument"`
-	OrderID                         *int   `json:"OrderID`
+	OrderID                         *int   `json:"OrderID"`
+	BillFromPartyFrom               *int   `json:"BillFromPartyFrom"`
+	BillFromPartyTo                 *int   `json:"BillFromPartyTo"`
+	BillToPartyFrom                 *int   `json:"BillToPartyFrom"`
+	BillToPartyTo                   *int   `json:"BillToPartyTo"`
+	BillFromParty                   *int   `json:"BillFromParty"`
+	BillToParty                     *int   `json:"BillToParty"`
 	HeaderCompleteDeliveryIsDefined *bool  `json:"HeaderCompleteDeliveryIsDefined"`
-	OverallDeliveryStatus           string `json:"OverallDeliveryStatus"`
+	HeaderDeliveryStatus            string `json:"HeaderDeliveryStatus"`
+	HeaderBillingStatus             string `json:"HeaderBillingStatus"`
+	HeaderBillingBlockStatus        *bool  `json:"HeaderBillingBlockStatus"`
 }

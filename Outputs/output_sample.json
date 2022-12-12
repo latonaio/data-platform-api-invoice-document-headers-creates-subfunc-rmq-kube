@@ -10,7 +10,7 @@
   "message": {
     "Header": [
       {
-        "InvoiceDocument": 90000004,
+        "InvoiceDocument": 90000013,
         "CreationDate": "",
         "LastChangeDate": "",
         "BillToParty": null,
@@ -27,9 +27,9 @@
         "IsExportImportDelivery": null,
         "HeaderBillingIsConfirmed": null,
         "HeaderBillingConfStatus": "",
-        "TotalNetAmount": 10000,
-        "TotalTaxAmount": 1000,
-        "TotalGrossAmount": 11000,
+        "TotalNetAmount": 20000,
+        "TotalTaxAmount": 2000,
+        "TotalGrossAmount": 22000,
         "TransactionCurrency": "JPY",
         "Incoterms": "CIF",
         "PaymentTerms": "0001",
@@ -39,43 +39,44 @@
         "HeaderPaymentBlockStatus": null,
         "ExternalReferenceDocument": "",
         "DocumentHeaderText": ""
+        "HeaderPaymentRequisitionIsCreated":null,
       }
     ],
     "HeaderPartner": [
       {
-        "InvoiceDocument": 90000004,
+        "InvoiceDocument": 90000013,
         "PartnerFunction": "BUYER",
         "BusinessPartner": 101,
         "BusinessPartnerFullName": "株式会社ローソン本社",
         "BusinessPartnerName": "ローソン本社",
         "Organization": null,
-        "Country": "",
+        "Country": "JP",
         "Language": "JA",
         "Currency": "JPY",
         "ExternalDocumentID": null,
         "AddressID": 100000
       },
       {
-        "InvoiceDocument": 90000004,
+        "InvoiceDocument": 90000013,
         "PartnerFunction": "DELIVERTO",
         "BusinessPartner": 102,
         "BusinessPartnerFullName": "株式会社ローソン虎ノ門店",
         "BusinessPartnerName": "ローソン虎ノ門店",
         "Organization": null,
-        "Country": "",
+        "Country": "JP",
         "Language": "JA",
         "Currency": "JPY",
         "ExternalDocumentID": null,
         "AddressID": 200000
       },
       {
-        "InvoiceDocument": 90000004,
+        "InvoiceDocument": 90000013,
         "PartnerFunction": "SELLER",
         "BusinessPartner": 201,
         "BusinessPartnerFullName": "山崎製パン販売株式会社",
         "BusinessPartnerName": "山崎パン販売",
         "Organization": null,
-        "Country": "",
+        "Country": "JP",
         "Language": "JA",
         "Currency": "JPY",
         "ExternalDocumentID": null,

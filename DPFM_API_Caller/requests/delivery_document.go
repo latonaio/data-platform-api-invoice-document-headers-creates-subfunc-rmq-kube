@@ -1,8 +1,16 @@
 package requests
 
 type DeliveryDocument struct {
-	InvoiceDocument           *int   `json:"InvoiceDocument"`
-	DeliveryDocument          *int   `json:"DeliveryDocument`
-	CompleteDeliveryIsDefined *bool  `json:"ompleteDeliveryIsDefined"`
-	OverallDeliveryStatus     string `json:"OverallDeliveryStatus"`
+	InvoiceDocument                 *int   `json:"InvoiceDocument"`
+	DeliveryDocument                *int   `json:"DeliveryDocument"`
+	BillFromPartyFrom               *int   `json:"BillFromPartyFrom"`
+	BillFromPartyTo                 *int   `json:"BillFromPartyTo"`
+	BillToPartyFrom                 *int   `json:"BillToPartyFrom"`
+	BillToPartyTo                   *int   `json:"BillToPartyTo"`
+	BillFromParty                   *int   `json:"BillFromParty"`
+	BillToParty                     *int   `json:"BillToParty"`
+	HeaderCompleteDeliveryIsDefined *bool  `json:"HeaderCompleteDeliveryIsDefined"`
+	HeaderDeliveryStatus            string `json:"HeaderDeliveryStatus"`
+	HeaderBillingStatus             string `json:"HeaderBillingStatus"`
+	HeaderBillingBlockStatus        *bool  `json:"HeaderBillingBlockStatus"`
 }
