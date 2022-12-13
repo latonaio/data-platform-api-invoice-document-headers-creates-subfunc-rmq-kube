@@ -6,11 +6,12 @@ type SDC struct {
 	OrdersHeaderPartner                 *[]OrdersHeaderPartner                 `json:"OrdersHeaderPartner"`
 	DeliveryDocument                    *[]DeliveryDocument                    `json:"DeliveryDocument"`
 	DeliveryDocumentHeaderPartner       *[]DeliveryDocumentHeaderPartner       `json:"DeliveryDocumentHeaderPartner"`
-	CalculateInvoiceDocument            *CalculateInvoiceDocument              `json:"CalculateInvoiceDocument"`
 	HeaderOrdersHeader                  *[]HeaderOrdersHeader                  `json:"HeaderOrdersHeader"`
 	HeaderDeliveryDocumentHeader        *[]HeaderDeliveryDocumentHeader        `json:"HeaderDeliveryDocumentHeader"`
 	HeaderOrdersHeaderPartner           *[]HeaderOrdersHeaderPartner           `json:"HeaderOrdersHeaderPartner"`
 	HeaderDeliveryDocumentHeaderPartner *[]HeaderDeliveryDocumentHeaderPartner `json:"HeaderDeliveryDocumentHeaderPartner"`
+	CalculateInvoiceDocument            *CalculateInvoiceDocument              `json:"CalculateInvoiceDocument"`
+	TotalNetAmount                      *TotalNetAmount                        `json:"TotalNetAmount"`
 }
 
 type MetaData struct {
@@ -116,6 +117,21 @@ type HeaderOrdersHeader struct {
 	IsExportImportDelivery   *bool   `json:"IsExportImportDelivery"`
 }
 
+type HeaderOrdersHeaderPartner struct {
+	InvoiceDocument         *int    `json:"InvoiceDocument"`
+	OrderID                 *int    `json:"OrderID"`
+	PartnerFunction         *string `json:"PartnerFunction"`
+	BusinessPartner         *int    `json:"BusinessPartner"`
+	BusinessPartnerFullName *string `json:"BusinessPartnerFullName"`
+	BusinessPartnerName     *string `json:"BusinessPartnerName"`
+	Organization            *string `json:"Organization"`
+	Country                 *string `json:"Country"`
+	Language                *string `json:"Language"`
+	Currency                *string `json:"Currency"`
+	ExternalDocumentID      *string `json:"ExternalDocumentID"`
+	AddressID               *int    `json:"AddressID"`
+}
+
 type HeaderDeliveryDocumentHeader struct {
 	InvoiceDocument               *int    `json:"InvoiceDocument"`
 	DeliveryDocument              *int    `json:"DeliveryDocument"`
@@ -138,6 +154,21 @@ type HeaderDeliveryDocumentHeader struct {
 	TransactionCurrency           *string `json:"TransactionCurrency"`
 }
 
+type HeaderDeliveryDocumentHeaderPartner struct {
+	InvoiceDocument         *int    `json:"InvoiceDocument"`
+	DeliveryDocument        *int    `json:"DeliveryDocument"`
+	PartnerFunction         *string `json:"PartnerFunction"`
+	BusinessPartner         *int    `json:"BusinessPartner"`
+	BusinessPartnerFullName *string `json:"BusinessPartnerFullName"`
+	BusinessPartnerName     *string `json:"BusinessPartnerName"`
+	Organization            *string `json:"Organization"`
+	Country                 *string `json:"Country"`
+	Language                *string `json:"Language"`
+	Currency                *string `json:"Currency"`
+	ExternalDocumentID      *string `json:"ExternalDocumentID"`
+	AddressID               *int    `json:"AddressID"`
+}
+
 type CalculateInvoiceDocumentKey struct {
 	ServiceLabel             string `json:"service_label"`
 	FieldNameWithNumberRange string `json:"FieldNameWithNumberRange"`
@@ -154,32 +185,12 @@ type CalculateInvoiceDocument struct {
 	InvoiceDocument             *int `json:"InvoiceDocument"`
 }
 
-type HeaderOrdersHeaderPartner struct {
-	InvoiceDocument         *int    `json:"InvoiceDocument"`
-	OrderID                 *int    `json:"OrderID"`
-	PartnerFunction         *string `json:"PartnerFunction"`
-	BusinessPartner         *int    `json:"BusinessPartner"`
-	BusinessPartnerFullName *string `json:"BusinessPartnerFullName"`
-	BusinessPartnerName     *string `json:"BusinessPartnerName"`
-	Organization            *string `json:"Organization"`
-	Country                 *string `json:"Country"`
-	Language                *string `json:"Language"`
-	Currency                *string `json:"Currency"`
-	ExternalDocumentID      *string `json:"ExternalDocumentID"`
-	AddressID               *int    `json:"AddressID"`
+type TotalNetAmountQueryGets struct {
+	InvoiceDocument *int     `json:"InvoiceDocument"`
+	TotalNetAmount  *float32 `json:"TotalNetAmount"`
 }
 
-type HeaderDeliveryDocumentHeaderPartner struct {
-	InvoiceDocument         *int    `json:"InvoiceDocument"`
-	DeliveryDocument        *int    `json:"DeliveryDocument"`
-	PartnerFunction         *string `json:"PartnerFunction"`
-	BusinessPartner         *int    `json:"BusinessPartner"`
-	BusinessPartnerFullName *string `json:"BusinessPartnerFullName"`
-	BusinessPartnerName     *string `json:"BusinessPartnerName"`
-	Organization            *string `json:"Organization"`
-	Country                 *string `json:"Country"`
-	Language                *string `json:"Language"`
-	Currency                *string `json:"Currency"`
-	ExternalDocumentID      *string `json:"ExternalDocumentID"`
-	AddressID               *int    `json:"AddressID"`
+type TotalNetAmount struct {
+	InvoiceDocument *int     `json:"InvoiceDocument"`
+	TotalNetAmount  *float32 `json:"TotalNetAmount"`
 }

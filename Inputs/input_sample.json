@@ -25,7 +25,7 @@
     "ReferenceDocumentItem": null
   },
   "InvoiceDocument":{
-    "InvoiceDocument":null,
+    "InvoiceDocument":90000001,
     "CreationDate":"",
     "LastChangeDate":"",
     "BillToParty":null,
@@ -39,7 +39,7 @@
     "CancelledInvoiceDocument":null,
     "IsExportDelivery":null,
     "HeaderBillingConfStatus":"",
-    "TotalNetAmount":null,
+    "TotalNetAmount":30000,
     "TotalTaxAmount":null,
     "TotalGrossAmount":null,
     "TransactionCurrency":"",

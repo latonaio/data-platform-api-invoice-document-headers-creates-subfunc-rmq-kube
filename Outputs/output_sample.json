@@ -38,8 +38,8 @@
         "PaymentMethod": "T",
         "HeaderPaymentBlockStatus": null,
         "ExternalReferenceDocument": "",
-        "DocumentHeaderText": ""
-        "HeaderPaymentRequisitionIsCreated":null,
+        "DocumentHeaderText": "",
+        "HeaderPaymentRequisitionIsCreated":null
       }
     ],
     "HeaderPartner": [

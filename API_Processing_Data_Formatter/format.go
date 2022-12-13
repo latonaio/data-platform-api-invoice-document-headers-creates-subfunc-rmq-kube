@@ -13,8 +13,8 @@ func (psdc *SDC) ConvertToMetaData(sdc *api_input_reader.SDC) (*MetaData, error)
 		BusinessPartnerID: sdc.BusinessPartnerID,
 		ServiceLabel:      sdc.ServiceLabel,
 	}
-	data := pm
 
+	data := pm
 	metaData := MetaData{
 		BusinessPartnerID: data.BusinessPartnerID,
 		ServiceLabel:      data.ServiceLabel,
@@ -111,8 +111,8 @@ func (psdc *SDC) ConvertToOrderIDByRangeSpecificationKey(sdc *api_input_reader.S
 		HeaderBillingStatus:             "CL",
 		HeaderBillingBlockStatus:        getBoolPtr(false),
 	}
-	data := pm
 
+	data := pm
 	orderIDKey := OrderIDKey{
 		OrderID:                         data.OrderID,
 		BillFromPartyFrom:               data.BillFromPartyFrom,
@@ -186,8 +186,8 @@ func (psdc *SDC) ConvertToOrderIDByReferenceDocumentKey(sdc *api_input_reader.SD
 		HeaderDeliveryStatus:            "CL",
 		HeaderBillingBlockStatus:        getBoolPtr(false),
 	}
-	data := pm
 
+	data := pm
 	orderIDKey := OrderIDKey{
 		OrderID:                         data.OrderID,
 		BillFromParty:                   data.BillFromParty,
@@ -372,8 +372,8 @@ func (psdc *SDC) ConvertToDeliveryDocumentByRangeSpecificationKey(sdc *api_input
 		HeaderBillingStatus:             "CL",
 		HeaderBillingBlockStatus:        getBoolPtr(false),
 	}
-	data := pm
 
+	data := pm
 	deliveryDocumentKey := DeliveryDocumentKey{
 		DeliveryDocument:                data.DeliveryDocument,
 		BillFromPartyFrom:               data.BillFromPartyFrom,
@@ -448,8 +448,8 @@ func (psdc *SDC) ConvertToDeliveryDocumentByReferenceDocumentKey(sdc *api_input_
 		HeaderBillingStatus:             "CL",
 		HeaderBillingBlockStatus:        getBoolPtr(false),
 	}
-	data := pm
 
+	data := pm
 	deliveryDocumentKey := DeliveryDocumentKey{
 		DeliveryDocument:                data.DeliveryDocument,
 		BillFromParty:                   data.BillFromParty,
@@ -627,8 +627,8 @@ func (psdc *SDC) ConvertToCalculateInvoiceDocumentKey() (*CalculateInvoiceDocume
 		ServiceLabel:             "",
 		FieldNameWithNumberRange: "InvoiceDocument",
 	}
-	data := pm
 
+	data := pm
 	calculateInvoiceDocumentKey := CalculateInvoiceDocumentKey{
 		ServiceLabel:             data.ServiceLabel,
 		FieldNameWithNumberRange: data.FieldNameWithNumberRange,
@@ -641,11 +641,7 @@ func (psdc *SDC) ConvertToCalculateInvoiceDocumentQueryGets(
 	sdc *api_input_reader.SDC,
 	rows *sql.Rows,
 ) (*CalculateInvoiceDocumentQueryGets, error) {
-	pm := &requests.CalculateInvoiceDocumentQueryGets{
-		ServiceLabel:                "",
-		FieldNameWithNumberRange:    "",
-		InvoiceDocumentLatestNumber: nil,
-	}
+	pm := &requests.CalculateInvoiceDocumentQueryGets{}
 
 	for i := 0; true; i++ {
 		if !rows.Next() {
@@ -664,8 +660,8 @@ func (psdc *SDC) ConvertToCalculateInvoiceDocumentQueryGets(
 			return nil, err
 		}
 	}
-	data := pm
 
+	data := pm
 	calculateInvoiceDocumentQueryGets := CalculateInvoiceDocumentQueryGets{
 		ServiceLabel:                data.ServiceLabel,
 		FieldNameWithNumberRange:    data.FieldNameWithNumberRange,
@@ -678,14 +674,11 @@ func (psdc *SDC) ConvertToCalculateInvoiceDocumentQueryGets(
 func (psdc *SDC) ConvertToCalculateInvoiceDocument(
 	invoiceDocumentLatestNumber *int,
 ) (*CalculateInvoiceDocument, error) {
-	pm := &requests.CalculateInvoiceDocument{
-		InvoiceDocumentLatestNumber: nil,
-		InvoiceDocument:             nil,
-	}
+	pm := &requests.CalculateInvoiceDocument{}
 
 	pm.InvoiceDocumentLatestNumber = invoiceDocumentLatestNumber
-	data := pm
 
+	data := pm
 	calculateInvoiceDocument := CalculateInvoiceDocument{
 		InvoiceDocumentLatestNumber: data.InvoiceDocumentLatestNumber,
 		InvoiceDocument:             data.InvoiceDocument,
@@ -694,6 +687,55 @@ func (psdc *SDC) ConvertToCalculateInvoiceDocument(
 	return &calculateInvoiceDocument, nil
 }
 
+func (psdc *SDC) ConvertToTotalNetAmountQueryGets(
+	sdc *api_input_reader.SDC,
+	rows *sql.Rows,
+) (*TotalNetAmountQueryGets, error) {
+	pm := &requests.TotalNetAmountQueryGets{}
+
+	for i := 0; true; i++ {
+		if !rows.Next() {
+			if i == 0 {
+				return nil, fmt.Errorf("DBに対象のレコードが存在しません。")
+			} else {
+				break
+			}
+		}
+		err := rows.Scan(
+			&pm.InvoiceDocument,
+			&pm.TotalNetAmount,
+		)
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	data := pm
+	totalNetAmountQueryGets := TotalNetAmountQueryGets{
+		InvoiceDocument: data.InvoiceDocument,
+		TotalNetAmount:  data.TotalNetAmount,
+	}
+
+	return &totalNetAmountQueryGets, nil
+}
+
+func (psdc *SDC) ConvertToTotalNetAmount(
+	inputTotalNetAmount *float32,
+) (*TotalNetAmount, error) {
+	pm := &requests.TotalNetAmount{}
+
+	pm.TotalNetAmount = inputTotalNetAmount
+
+	data := pm
+	totalNetAmount := TotalNetAmount{
+		InvoiceDocument: data.InvoiceDocument,
+		TotalNetAmount:  data.TotalNetAmount,
+	}
+
+	return &totalNetAmount, nil
+}
+
+// HeaderPartner
 func (psdc *SDC) ConvertToHeaderOrdersHeaderPartner(
 	sdc *api_input_reader.SDC,
 	rows *sql.Rows,

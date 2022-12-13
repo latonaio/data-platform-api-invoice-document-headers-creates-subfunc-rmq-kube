@@ -5,12 +5,14 @@ import (
 	api_input_reader "data-platform-api-invoice-document-headers-creates-subfunc-rmq/API_Input_Reader"
 	dpfm_api_output_formatter "data-platform-api-invoice-document-headers-creates-subfunc-rmq/API_Output_Formatter"
 	api_processing_data_formatter "data-platform-api-invoice-document-headers-creates-subfunc-rmq/API_Processing_Data_Formatter"
+	"log"
 	"strings"
 
 	"sync"
 
 	"github.com/latonaio/golang-logging-library-for-data-platform/logger"
 	database "github.com/latonaio/golang-mysql-network-connector"
+	"golang.org/x/xerrors"
 )
 
 type SubFunction struct {
@@ -78,6 +80,21 @@ func (f *SubFunction) OrderIDByNumberSpecification(
 		dataKey.HeaderBillingStatus,
 	)
 
+	var count *int
+	err = f.db.QueryRow(
+		`SELECT COUNT(*)
+		FROM DataPlatformMastersAndTransactionsMysqlKube.data_platform_orders_header_data
+		WHERE (BillFromParty, BillToParty) IN ( `+repeat+` )
+		AND (HeaderCompleteDeliveryIsDefined, HeaderDeliveryStatus, HeaderBillingBlockStatus) = (?, ?, ?)
+		AND HeaderBillingStatus <> ?;`, args...,
+	).Scan(&count)
+	if err != nil {
+		log.Println(err)
+	}
+	if *count == 0 || *count > 1000 {
+		return nil, xerrors.Errorf("OrderIDの検索結果がゼロ件または1,000件超です。")
+	}
+
 	rows, err := f.db.Query(
 		`SELECT OrderID, BillFromParty, BillToParty, HeaderCompleteDeliveryIsDefined, HeaderDeliveryStatus, HeaderBillingStatus, HeaderBillingBlockStatus
 		FROM DataPlatformMastersAndTransactionsMysqlKube.data_platform_orders_header_data
@@ -110,6 +127,22 @@ func (f *SubFunction) OrderIDByRangeSpecification(
 	dataKey.BillFromPartyTo = sdc.InvoiceDocumentInputParameters.BillFromPartyTo
 	dataKey.BillToPartyFrom = sdc.InvoiceDocumentInputParameters.BillToPartyFrom
 	dataKey.BillToPartyTo = sdc.InvoiceDocumentInputParameters.BillToPartyTo
+
+	var count *int
+	err = f.db.QueryRow(
+		`SELECT COUNT(*)
+		FROM DataPlatformMastersAndTransactionsMysqlKube.data_platform_orders_header_data
+		WHERE BillFromParty BETWEEN ? AND ?
+		AND BillToParty BETWEEN ? AND ?
+		AND (HeaderCompleteDeliveryIsDefined, HeaderDeliveryStatus, HeaderBillingBlockStatus) = (?, ?, ?)
+		AND HeaderBillingStatus <> ?;`, dataKey.BillFromPartyFrom, dataKey.BillFromPartyTo, dataKey.BillToPartyFrom, dataKey.BillToPartyTo, dataKey.HeaderCompleteDeliveryIsDefined, dataKey.HeaderDeliveryStatus, dataKey.HeaderBillingBlockStatus, dataKey.HeaderBillingStatus,
+	).Scan(&count)
+	if err != nil {
+		log.Println(err)
+	}
+	if *count == 0 || *count > 1000 {
+		return nil, xerrors.Errorf("OrderIDの検索結果がゼロ件または1,000件超です。")
+	}
 
 	rows, err := f.db.Query(
 		`SELECT OrderID, BillFromParty, BillToParty, HeaderCompleteDeliveryIsDefined, HeaderDeliveryStatus, HeaderBillingStatus, HeaderBillingBlockStatus
@@ -228,6 +261,21 @@ func (f *SubFunction) DeliveryDocumentByNumberSpecification(
 		dataKey.HeaderBillingStatus,
 	)
 
+	var count *int
+	err = f.db.QueryRow(
+		`SELECT COUNT(*)
+		FROM DataPlatformMastersAndTransactionsMysqlKube.data_platform_delivery_document_header_data
+		WHERE (BillFromParty, BillToParty) IN ( `+repeat+` )
+		AND (HeaderCompleteDeliveryIsDefined, HeaderDeliveryStatus, HeaderBillingBlockStatus) = (?, ?, ?)
+		AND HeaderBillingStatus <> ?;`, args...,
+	).Scan(&count)
+	if err != nil {
+		log.Println(err)
+	}
+	if *count == 0 || *count > 1000 {
+		return nil, xerrors.Errorf("OrderIDの検索結果がゼロ件または1,000件超です。")
+	}
+
 	rows, err := f.db.Query(
 		`SELECT DeliveryDocument, BillFromParty, BillToParty, HeaderCompleteDeliveryIsDefined, HeaderDeliveryStatus, HeaderBillingStatus, HeaderBillingBlockStatus
 		FROM DataPlatformMastersAndTransactionsMysqlKube.data_platform_delivery_document_header_data
@@ -260,6 +308,22 @@ func (f *SubFunction) DeliveryDocumentByRangeSpecification(
 	dataKey.BillFromPartyTo = sdc.InvoiceDocumentInputParameters.BillFromPartyTo
 	dataKey.BillToPartyFrom = sdc.InvoiceDocumentInputParameters.BillToPartyFrom
 	dataKey.BillToPartyTo = sdc.InvoiceDocumentInputParameters.BillToPartyTo
+
+	var count *int
+	err = f.db.QueryRow(
+		`SELECT COUNT(*)
+		FROM DataPlatformMastersAndTransactionsMysqlKube.data_platform_delivery_document_header_data
+		WHERE BillFromParty BETWEEN ? AND ?
+		AND BillToParty BETWEEN ? AND ?
+		AND (HeaderCompleteDeliveryIsDefined, HeaderDeliveryStatus, HeaderBillingBlockStatus) = (?, ?, ?)
+		AND HeaderBillingStatus <> ?;`, dataKey.BillFromPartyFrom, dataKey.BillFromPartyTo, dataKey.BillToPartyFrom, dataKey.BillToPartyTo, dataKey.HeaderCompleteDeliveryIsDefined, dataKey.HeaderDeliveryStatus, dataKey.HeaderBillingBlockStatus, dataKey.HeaderBillingStatus,
+	).Scan(&count)
+	if err != nil {
+		log.Println(err)
+	}
+	if *count == 0 || *count > 1000 {
+		return nil, xerrors.Errorf("OrderIDの検索結果がゼロ件または1,000件超です。")
+	}
 
 	rows, err := f.db.Query(
 		`SELECT DeliveryDocument, BillFromParty, BillToParty, HeaderCompleteDeliveryIsDefined, HeaderDeliveryStatus, HeaderBillingStatus, HeaderBillingBlockStatus
@@ -342,47 +406,6 @@ func (f *SubFunction) DeliveryDocumentHeaderPartner(
 	return data, err
 }
 
-func (f *SubFunction) CalculateInvoiceDocument(
-	sdc *api_input_reader.SDC,
-	psdc *api_processing_data_formatter.SDC,
-) (*api_processing_data_formatter.CalculateInvoiceDocument, error) {
-	metaData := psdc.MetaData
-	dataKey, err := psdc.ConvertToCalculateInvoiceDocumentKey()
-	if err != nil {
-		return nil, err
-	}
-
-	dataKey.ServiceLabel = metaData.ServiceLabel
-
-	rows, err := f.db.Query(
-		`SELECT ServiceLabel, FieldNameWithNumberRange, LatestNumber
-		FROM DataPlatformMastersAndTransactionsMysqlKube.data_platform_number_range_latest_number_data
-		WHERE (ServiceLabel, FieldNameWithNumberRange) = (?, ?);`, dataKey.ServiceLabel, dataKey.FieldNameWithNumberRange,
-	)
-	if err != nil {
-		return nil, err
-	}
-
-	dataQueryGets, err := psdc.ConvertToCalculateInvoiceDocumentQueryGets(sdc, rows)
-	if err != nil {
-		return nil, err
-	}
-
-	calculateInvoiceDocument := CalculateInvoiceDocument(*dataQueryGets.InvoiceDocumentLatestNumber)
-
-	data, err := psdc.ConvertToCalculateInvoiceDocument(calculateInvoiceDocument)
-	if err != nil {
-		return nil, err
-	}
-
-	return data, err
-}
-
-func CalculateInvoiceDocument(latestNumber int) *int {
-	res := latestNumber + 1
-	return &res
-}
-
 func (f *SubFunction) CreateSdc(
 	sdc *api_input_reader.SDC,
 	psdc *api_processing_data_formatter.SDC,
@@ -430,15 +453,22 @@ func (f *SubFunction) CreateSdc(
 			return
 		}
 
-		// I-1-1. オーダ参照レコード・値の取得（オーダーヘッダ）
-		psdc.HeaderOrdersHeader, e = f.OrdersHeader(sdc, psdc)
+		// 1-I-1.オーダー参照レコード・値の取得（オーダーヘッダ）
+		psdc.HeaderOrdersHeader, e = f.HeaderOrdersHeader(sdc, psdc)
 		if e != nil {
 			err = e
 			return
 		}
 
-		// I-1-2. オーダー参照レコード・値の取得（オーダーヘッダパートナ）
+		// 1-I-2. オーダー参照レコード・値の取得（オーダーヘッダパートナ）
 		psdc.HeaderOrdersHeaderPartner, e = f.HeaderOrdersHeaderPartner(sdc, psdc)
+		if e != nil {
+			err = e
+			return
+		}
+
+		// 2-5. TotalNetAmount
+		psdc.TotalNetAmount, e = f.TotalNetAmount(sdc, psdc)
 		if e != nil {
 			err = e
 			return
@@ -475,15 +505,22 @@ func (f *SubFunction) CreateSdc(
 			return
 		}
 
-		//I-2-1. 入出荷伝票参照レコード・値の取得（入出荷伝票ヘッダ）
+		// 1-II-1. 入出荷伝票参照レコード・値の取得（入出荷伝票ヘッダ）
 		psdc.HeaderDeliveryDocumentHeader, e = f.HeaderDeliveryDocumentHeader(sdc, psdc)
 		if e != nil {
 			err = e
 			return
 		}
 
-		// // I-1-2. オーダー参照レコード・値の取得（オーダーヘッダパートナ）
-		// psdc.HeaderDeliveryDocumentHeaderPartner, e = f.DeliveryDocumentHeaderPartner(sdc, psdc)
+		// 1-II-2. 入出荷伝票参照レコード・値の取得（入出荷伝票ヘッダパートナ）
+		psdc.HeaderDeliveryDocumentHeaderPartner, e = f.HeaderDeliveryDocumentHeaderPartner(sdc, psdc)
+		if e != nil {
+			err = e
+			return
+		}
+
+		// // 2-5. TotalNetAmount
+		// psdc.TotalNetAmount, e = f.TotalNetAmount(sdc, psdc)
 		// if e != nil {
 		// 	err = e
 		// 	return
