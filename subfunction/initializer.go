@@ -5,7 +5,6 @@ import (
 	api_input_reader "data-platform-api-invoice-document-headers-creates-subfunc-rmq/API_Input_Reader"
 	dpfm_api_output_formatter "data-platform-api-invoice-document-headers-creates-subfunc-rmq/API_Output_Formatter"
 	api_processing_data_formatter "data-platform-api-invoice-document-headers-creates-subfunc-rmq/API_Processing_Data_Formatter"
-	"log"
 	"strings"
 
 	"sync"
@@ -89,7 +88,7 @@ func (f *SubFunction) OrderIDByNumberSpecification(
 		AND HeaderBillingStatus <> ?;`, args...,
 	).Scan(&count)
 	if err != nil {
-		log.Println(err)
+		return nil, err
 	}
 	if *count == 0 || *count > 1000 {
 		return nil, xerrors.Errorf("OrderIDの検索結果がゼロ件または1,000件超です。")
@@ -138,7 +137,7 @@ func (f *SubFunction) OrderIDByRangeSpecification(
 		AND HeaderBillingStatus <> ?;`, dataKey.BillFromPartyFrom, dataKey.BillFromPartyTo, dataKey.BillToPartyFrom, dataKey.BillToPartyTo, dataKey.HeaderCompleteDeliveryIsDefined, dataKey.HeaderDeliveryStatus, dataKey.HeaderBillingBlockStatus, dataKey.HeaderBillingStatus,
 	).Scan(&count)
 	if err != nil {
-		log.Println(err)
+		return nil, err
 	}
 	if *count == 0 || *count > 1000 {
 		return nil, xerrors.Errorf("OrderIDの検索結果がゼロ件または1,000件超です。")
@@ -270,7 +269,7 @@ func (f *SubFunction) DeliveryDocumentByNumberSpecification(
 		AND HeaderBillingStatus <> ?;`, args...,
 	).Scan(&count)
 	if err != nil {
-		log.Println(err)
+		return nil, err
 	}
 	if *count == 0 || *count > 1000 {
 		return nil, xerrors.Errorf("OrderIDの検索結果がゼロ件または1,000件超です。")
@@ -319,7 +318,7 @@ func (f *SubFunction) DeliveryDocumentByRangeSpecification(
 		AND HeaderBillingStatus <> ?;`, dataKey.BillFromPartyFrom, dataKey.BillFromPartyTo, dataKey.BillToPartyFrom, dataKey.BillToPartyTo, dataKey.HeaderCompleteDeliveryIsDefined, dataKey.HeaderDeliveryStatus, dataKey.HeaderBillingBlockStatus, dataKey.HeaderBillingStatus,
 	).Scan(&count)
 	if err != nil {
-		log.Println(err)
+		return nil, err
 	}
 	if *count == 0 || *count > 1000 {
 		return nil, xerrors.Errorf("OrderIDの検索結果がゼロ件または1,000件超です。")
@@ -498,7 +497,7 @@ func (f *SubFunction) CreateSdc(
 		// 	return
 		// }
 
-		// II-1-2. ヘッダパートナのデータ取得
+		// I-2-2. ヘッダパートナのデータ取得
 		psdc.DeliveryDocumentHeaderPartner, e = f.DeliveryDocumentHeaderPartner(sdc, psdc)
 		if e != nil {
 			err = e

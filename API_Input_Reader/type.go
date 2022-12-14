@@ -119,15 +119,15 @@ type InvoiceDocumentItem struct {
 	Product                         *string            `json:"Product"`
 	ProductGroup                    *string            `json:"ProductGroup"`
 	ProductionPlantPartnerFunction  *string            `json:"ProductionPlantPartnerFunction"`
-	ProductionPlantBusinessPartner  *string            `json:"ProductionPlantBusinessPartner"`
+	ProductionPlantBusinessPartner  *int               `json:"ProductionPlantBusinessPartner"`
 	ProductionPlant                 *string            `json:"ProductionPlant"`
 	ProductionPlantStorageLocation  *string            `json:"ProductionPlantStorageLocation"`
 	IssuingPlantPartnerFunction     *string            `json:"IssuingPlantPartnerFunction"`
-	IssuingPlantBusinessPartner     *string            `json:"IssuingPlantBusinessPartner"`
+	IssuingPlantBusinessPartner     *int               `json:"IssuingPlantBusinessPartner"`
 	IssuingPlant                    *string            `json:"IssuingPlant"`
 	IssuingPlantStorageLocation     *string            `json:"IssuingPlantStorageLocation"`
 	ReceivingPlantPartnerFunction   *string            `json:"ReceivingPlantPartnerFunction"`
-	ReceivingPlantBusinessPartner   *string            `json:"ReceivingPlantBusinessPartner"`
+	ReceivingPlantBusinessPartner   *int               `json:"ReceivingPlantBusinessPartner"`
 	ReceivingPlant                  *string            `json:"ReceivingPlant"`
 	ReceivingPlantStorageLocation   *string            `json:"ReceivingPlantStorageLocation"`
 	ServicesRenderedDate            *string            `json:"ServicesRenderedDate"`
