@@ -13,10 +13,7 @@ func (f *SubFunction) CalculateInvoiceDocument(
 	psdc *api_processing_data_formatter.SDC,
 ) (*api_processing_data_formatter.CalculateInvoiceDocument, error) {
 	metaData := psdc.MetaData
-	dataKey, err := psdc.ConvertToCalculateInvoiceDocumentKey()
-	if err != nil {
-		return nil, err
-	}
+	dataKey := psdc.ConvertToCalculateInvoiceDocumentKey()
 
 	dataKey.ServiceLabel = metaData.ServiceLabel
 
@@ -36,10 +33,7 @@ func (f *SubFunction) CalculateInvoiceDocument(
 
 	calculateInvoiceDocument := CalculateInvoiceDocument(*dataQueryGets.InvoiceDocumentLatestNumber)
 
-	data, err := psdc.ConvertToCalculateInvoiceDocument(calculateInvoiceDocument)
-	if err != nil {
-		return nil, err
-	}
+	data := psdc.ConvertToCalculateInvoiceDocument(calculateInvoiceDocument)
 
 	return data, err
 }
@@ -62,8 +56,8 @@ func (f *SubFunction) HeaderOrdersHeader(
 	}
 
 	rows, err := f.db.Query(
-		`SELECT OrderID, OrderType, Buyer, Seller, ContractType, VaridityStartDate, VaridityEndDate, InvoiceScheduleStartDate,
-		InvoiceScheduleEndDate, TotalNetAmount, TotalTaxAmount, TotalGrossAmount, TransactionCurrency, PricingDate, Incoterms,
+		`SELECT OrderID, OrderType, Buyer, Seller, ContractType, ValidityStartDate, ValidityEndDate, InvoicePeriodStartDate,
+		InvoicePeriodEndDate, TotalNetAmount, TotalTaxAmount, TotalGrossAmount, TransactionCurrency, PricingDate, Incoterms,
 		BillFromCountry, BillToCountry, Payer, Payee, PaymentTerms, PaymentMethod, IsExportImportDelivery
 		FROM DataPlatformMastersAndTransactionsMysqlKube.data_platform_orders_header_data
 		WHERE OrderID IN ( `+repeat+` );`, args...,
@@ -123,7 +117,7 @@ func (f *SubFunction) TotalNetAmount(
 	if sdc.InvoiceDocument.TotalNetAmount != nil {
 		for i, v := range *psdc.HeaderOrdersHeader {
 			if v.TotalNetAmount == *sdc.InvoiceDocument.TotalNetAmount {
-				data, err = psdc.ConvertToTotalNetAmount(&v.TotalNetAmount)
+				data = psdc.ConvertToTotalNetAmount(&v.TotalNetAmount)
 				break
 			}
 			if i == len(*psdc.HeaderOrdersHeader)-1 {

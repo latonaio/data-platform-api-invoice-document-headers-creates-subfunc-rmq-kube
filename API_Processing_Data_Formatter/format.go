@@ -8,7 +8,7 @@ import (
 )
 
 // initializer
-func (psdc *SDC) ConvertToMetaData(sdc *api_input_reader.SDC) (*MetaData, error) {
+func (psdc *SDC) ConvertToMetaData(sdc *api_input_reader.SDC) *MetaData {
 	pm := &requests.MetaData{
 		BusinessPartnerID: sdc.BusinessPartnerID,
 		ServiceLabel:      sdc.ServiceLabel,
@@ -20,10 +20,10 @@ func (psdc *SDC) ConvertToMetaData(sdc *api_input_reader.SDC) (*MetaData, error)
 		ServiceLabel:      data.ServiceLabel,
 	}
 
-	return &metaData, nil
+	return &metaData
 }
 
-func (psdc *SDC) ConvertToOrderIDByNumberSpecificationKey(sdc *api_input_reader.SDC, length int) (*OrderIDKey, error) {
+func (psdc *SDC) ConvertToOrderIDByNumberSpecificationKey(sdc *api_input_reader.SDC, length int) *OrderIDKey {
 	pm := &requests.OrderIDKey{
 		HeaderCompleteDeliveryIsDefined: getBoolPtr(true),
 		HeaderDeliveryStatus:            "CL",
@@ -51,7 +51,7 @@ func (psdc *SDC) ConvertToOrderIDByNumberSpecificationKey(sdc *api_input_reader.
 		HeaderBillingBlockStatus:        data.HeaderBillingBlockStatus,
 	}
 
-	return &orderIDKey, nil
+	return &orderIDKey
 }
 
 func (psdc *SDC) ConvertToOrderIDByNumberSpecification(
@@ -65,7 +65,7 @@ func (psdc *SDC) ConvertToOrderIDByNumberSpecification(
 
 		if !rows.Next() {
 			if i == 0 {
-				return nil, fmt.Errorf("DBに対象のレコードが存在しません。")
+				return nil, fmt.Errorf("'data_platform_orders_header_data'テーブルに対象のレコードが存在しません。")
 			} else {
 				break
 			}
@@ -104,7 +104,7 @@ func (psdc *SDC) ConvertToOrderIDByNumberSpecification(
 	return &orderID, nil
 }
 
-func (psdc *SDC) ConvertToOrderIDByRangeSpecificationKey(sdc *api_input_reader.SDC) (*OrderIDKey, error) {
+func (psdc *SDC) ConvertToOrderIDByRangeSpecificationKey(sdc *api_input_reader.SDC) *OrderIDKey {
 	pm := &requests.OrderIDKey{
 		HeaderCompleteDeliveryIsDefined: getBoolPtr(true),
 		HeaderDeliveryStatus:            "CL",
@@ -127,7 +127,7 @@ func (psdc *SDC) ConvertToOrderIDByRangeSpecificationKey(sdc *api_input_reader.S
 		HeaderBillingBlockStatus:        data.HeaderBillingBlockStatus,
 	}
 
-	return &orderIDKey, nil
+	return &orderIDKey
 }
 
 func (psdc *SDC) ConvertToOrderIDByRangeSpecification(
@@ -141,7 +141,7 @@ func (psdc *SDC) ConvertToOrderIDByRangeSpecification(
 
 		if !rows.Next() {
 			if i == 0 {
-				return nil, fmt.Errorf("DBに対象のレコードが存在しません。")
+				return nil, fmt.Errorf("'data_platform_orders_header_data'テーブルに対象のレコードが存在しません。")
 			} else {
 				break
 			}
@@ -180,7 +180,7 @@ func (psdc *SDC) ConvertToOrderIDByRangeSpecification(
 	return &orderID, nil
 }
 
-func (psdc *SDC) ConvertToOrderIDByReferenceDocumentKey(sdc *api_input_reader.SDC) (*OrderIDKey, error) {
+func (psdc *SDC) ConvertToOrderIDByReferenceDocumentKey(sdc *api_input_reader.SDC) *OrderIDKey {
 	pm := &requests.OrderIDKey{
 		HeaderCompleteDeliveryIsDefined: getBoolPtr(false),
 		HeaderDeliveryStatus:            "CL",
@@ -198,7 +198,7 @@ func (psdc *SDC) ConvertToOrderIDByReferenceDocumentKey(sdc *api_input_reader.SD
 		HeaderBillingBlockStatus:        data.HeaderBillingBlockStatus,
 	}
 
-	return &orderIDKey, nil
+	return &orderIDKey
 }
 
 func (psdc *SDC) ConvertToOrderIDByReferenceDocument(
@@ -212,7 +212,7 @@ func (psdc *SDC) ConvertToOrderIDByReferenceDocument(
 
 		if !rows.Next() {
 			if i == 0 {
-				return nil, fmt.Errorf("DBに対象のレコードが存在しません。")
+				return nil, fmt.Errorf("'data_platform_orders_header_data'テーブルに対象のレコードが存在しません。")
 			} else {
 				break
 			}
@@ -257,7 +257,7 @@ func (psdc *SDC) ConvertToOrdersHeaderPartner(
 
 		if !rows.Next() {
 			if i == 0 {
-				return nil, fmt.Errorf("DBに対象のレコードが存在しません。")
+				return nil, fmt.Errorf("'data_platform_orders_header_partner_data'テーブルに対象のレコードが存在しません。")
 			} else {
 				break
 			}
@@ -284,7 +284,7 @@ func (psdc *SDC) ConvertToOrdersHeaderPartner(
 	return &ordersHeaderPartner, nil
 }
 
-func (psdc *SDC) ConvertToDeliveryDocumentByNumberSpecificationKey(sdc *api_input_reader.SDC, length int) (*DeliveryDocumentKey, error) {
+func (psdc *SDC) ConvertToDeliveryDocumentByNumberSpecificationKey(sdc *api_input_reader.SDC, length int) *DeliveryDocumentKey {
 	pm := &requests.DeliveryDocumentKey{
 		HeaderCompleteDeliveryIsDefined: getBoolPtr(true),
 		HeaderDeliveryStatus:            "CL",
@@ -312,7 +312,7 @@ func (psdc *SDC) ConvertToDeliveryDocumentByNumberSpecificationKey(sdc *api_inpu
 		HeaderBillingBlockStatus:        data.HeaderBillingBlockStatus,
 	}
 
-	return &deliveryDocumentKey, nil
+	return &deliveryDocumentKey
 }
 
 func (psdc *SDC) ConvertToDeliveryDocumentByNumberSpecification(
@@ -326,7 +326,7 @@ func (psdc *SDC) ConvertToDeliveryDocumentByNumberSpecification(
 
 		if !rows.Next() {
 			if i == 0 {
-				return nil, fmt.Errorf("DBに対象のレコードが存在しません。")
+				return nil, fmt.Errorf("'data_platform_delivery_document_header_data'テーブルに対象のレコードが存在しません。")
 			} else {
 				break
 			}
@@ -365,7 +365,7 @@ func (psdc *SDC) ConvertToDeliveryDocumentByNumberSpecification(
 	return &deliveryDocument, nil
 }
 
-func (psdc *SDC) ConvertToDeliveryDocumentByRangeSpecificationKey(sdc *api_input_reader.SDC) (*DeliveryDocumentKey, error) {
+func (psdc *SDC) ConvertToDeliveryDocumentByRangeSpecificationKey(sdc *api_input_reader.SDC) *DeliveryDocumentKey {
 	pm := &requests.DeliveryDocumentKey{
 		HeaderCompleteDeliveryIsDefined: getBoolPtr(true),
 		HeaderDeliveryStatus:            "CL",
@@ -388,7 +388,7 @@ func (psdc *SDC) ConvertToDeliveryDocumentByRangeSpecificationKey(sdc *api_input
 		HeaderBillingBlockStatus:        data.HeaderBillingBlockStatus,
 	}
 
-	return &deliveryDocumentKey, nil
+	return &deliveryDocumentKey
 }
 
 func (psdc *SDC) ConvertToDeliveryDocumentByRangeSpecification(
@@ -402,7 +402,7 @@ func (psdc *SDC) ConvertToDeliveryDocumentByRangeSpecification(
 
 		if !rows.Next() {
 			if i == 0 {
-				return nil, fmt.Errorf("DBに対象のレコードが存在しません。")
+				return nil, fmt.Errorf("'data_platform_delivery_document_header_data'テーブルに対象のレコードが存在しません。")
 			} else {
 				break
 			}
@@ -441,7 +441,7 @@ func (psdc *SDC) ConvertToDeliveryDocumentByRangeSpecification(
 	return &deliveryDocument, nil
 }
 
-func (psdc *SDC) ConvertToDeliveryDocumentByReferenceDocumentKey(sdc *api_input_reader.SDC) (*DeliveryDocumentKey, error) {
+func (psdc *SDC) ConvertToDeliveryDocumentByReferenceDocumentKey(sdc *api_input_reader.SDC) *DeliveryDocumentKey {
 	pm := &requests.DeliveryDocumentKey{
 		HeaderCompleteDeliveryIsDefined: getBoolPtr(true),
 		HeaderDeliveryStatus:            "CL",
@@ -460,7 +460,7 @@ func (psdc *SDC) ConvertToDeliveryDocumentByReferenceDocumentKey(sdc *api_input_
 		HeaderBillingBlockStatus:        data.HeaderBillingBlockStatus,
 	}
 
-	return &deliveryDocumentKey, nil
+	return &deliveryDocumentKey
 }
 
 func (psdc *SDC) ConvertToDeliveryDocumentByReferenceDocument(
@@ -474,7 +474,7 @@ func (psdc *SDC) ConvertToDeliveryDocumentByReferenceDocument(
 
 		if !rows.Next() {
 			if i == 0 {
-				return nil, fmt.Errorf("DBに対象のレコードが存在しません。")
+				return nil, fmt.Errorf("'data_platform_delivery_document_header_data'テーブルに対象のレコードが存在しません。")
 			} else {
 				break
 			}
@@ -520,7 +520,7 @@ func (psdc *SDC) ConvertToDeliveryDocumentHeaderPartner(
 
 		if !rows.Next() {
 			if i == 0 {
-				return nil, fmt.Errorf("DBに対象のレコードが存在しません。")
+				return nil, fmt.Errorf("'data_platform_delivery_document_header_partner_data'テーブルに対象のレコードが存在しません。")
 			} else {
 				break
 			}
@@ -558,7 +558,7 @@ func (psdc *SDC) ConvertToHeaderOrdersHeader(
 	for i := 0; true; i++ {
 		if !rows.Next() {
 			if i == 0 {
-				return nil, fmt.Errorf("DBに対象のレコードが存在しません。")
+				return nil, fmt.Errorf("'data_platform_orders_header_data'テーブルに対象のレコードが存在しません。")
 			} else {
 				break
 			}
@@ -622,9 +622,8 @@ func (psdc *SDC) ConvertToHeaderOrdersHeader(
 	return &headerOrdersHeader, nil
 }
 
-func (psdc *SDC) ConvertToCalculateInvoiceDocumentKey() (*CalculateInvoiceDocumentKey, error) {
+func (psdc *SDC) ConvertToCalculateInvoiceDocumentKey() *CalculateInvoiceDocumentKey {
 	pm := &requests.CalculateInvoiceDocumentKey{
-		ServiceLabel:             "",
 		FieldNameWithNumberRange: "InvoiceDocument",
 	}
 
@@ -634,7 +633,7 @@ func (psdc *SDC) ConvertToCalculateInvoiceDocumentKey() (*CalculateInvoiceDocume
 		FieldNameWithNumberRange: data.FieldNameWithNumberRange,
 	}
 
-	return &calculateInvoiceDocumentKey, nil
+	return &calculateInvoiceDocumentKey
 }
 
 func (psdc *SDC) ConvertToCalculateInvoiceDocumentQueryGets(
@@ -646,7 +645,7 @@ func (psdc *SDC) ConvertToCalculateInvoiceDocumentQueryGets(
 	for i := 0; true; i++ {
 		if !rows.Next() {
 			if i == 0 {
-				return nil, fmt.Errorf("DBに対象のレコードが存在しません。")
+				return nil, fmt.Errorf("'data_platform_number_range_latest_number_data'テーブルに対象のレコードが存在しません。")
 			} else {
 				break
 			}
@@ -673,7 +672,7 @@ func (psdc *SDC) ConvertToCalculateInvoiceDocumentQueryGets(
 
 func (psdc *SDC) ConvertToCalculateInvoiceDocument(
 	invoiceDocumentLatestNumber *int,
-) (*CalculateInvoiceDocument, error) {
+) *CalculateInvoiceDocument {
 	pm := &requests.CalculateInvoiceDocument{}
 
 	pm.InvoiceDocumentLatestNumber = invoiceDocumentLatestNumber
@@ -684,7 +683,7 @@ func (psdc *SDC) ConvertToCalculateInvoiceDocument(
 		InvoiceDocument:             data.InvoiceDocument,
 	}
 
-	return &calculateInvoiceDocument, nil
+	return &calculateInvoiceDocument
 }
 
 func (psdc *SDC) ConvertToTotalNetAmountQueryGets(
@@ -696,7 +695,7 @@ func (psdc *SDC) ConvertToTotalNetAmountQueryGets(
 	for i := 0; true; i++ {
 		if !rows.Next() {
 			if i == 0 {
-				return nil, fmt.Errorf("DBに対象のレコードが存在しません。")
+				return nil, fmt.Errorf("'data_platform_invoice_document_header_data'テーブルに対象のレコードが存在しません。")
 			} else {
 				break
 			}
@@ -721,7 +720,7 @@ func (psdc *SDC) ConvertToTotalNetAmountQueryGets(
 
 func (psdc *SDC) ConvertToTotalNetAmount(
 	inputTotalNetAmount *float32,
-) (*TotalNetAmount, error) {
+) *TotalNetAmount {
 	pm := &requests.TotalNetAmount{}
 
 	pm.TotalNetAmount = inputTotalNetAmount
@@ -732,7 +731,7 @@ func (psdc *SDC) ConvertToTotalNetAmount(
 		TotalNetAmount:  data.TotalNetAmount,
 	}
 
-	return &totalNetAmount, nil
+	return &totalNetAmount
 }
 
 // HeaderPartner
@@ -746,7 +745,7 @@ func (psdc *SDC) ConvertToHeaderOrdersHeaderPartner(
 	for i := 0; true; i++ {
 		if !rows.Next() {
 			if i == 0 {
-				return nil, fmt.Errorf("DBに対象のレコードが存在しません。")
+				return nil, fmt.Errorf("'data_platform_orders_header_partner_data'テーブルに対象のレコードが存在しません。")
 			} else {
 				break
 			}
@@ -798,7 +797,7 @@ func (psdc *SDC) ConvertToHeaderDeliveryDocumentHeader(
 	for i := 0; true; i++ {
 		if !rows.Next() {
 			if i == 0 {
-				return nil, fmt.Errorf("DBに対象のレコードが存在しません。")
+				return nil, fmt.Errorf("'data_platform_delivery_document_header_data'テーブルに対象のレコードが存在しません。")
 			} else {
 				break
 			}
@@ -864,7 +863,7 @@ func (psdc *SDC) ConvertToHeaderDeliveryDocumentHeaderPartner(
 	for i := 0; true; i++ {
 		if !rows.Next() {
 			if i == 0 {
-				return nil, fmt.Errorf("DBに対象のレコードが存在しません。")
+				return nil, fmt.Errorf("`data_platform_delivery_document_header_partner_data`テーブルに対象のレコードが存在しません。")
 			} else {
 				break
 			}

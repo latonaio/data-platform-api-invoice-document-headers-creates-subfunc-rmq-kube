@@ -31,16 +31,12 @@ func NewSubFunction(ctx context.Context, db *database.Mysql, l *logger.Logger) *
 func (f *SubFunction) MetaData(
 	sdc *api_input_reader.SDC,
 	psdc *api_processing_data_formatter.SDC,
-) (*api_processing_data_formatter.MetaData, error) {
-	var err error
+) *api_processing_data_formatter.MetaData {
 	var metaData *api_processing_data_formatter.MetaData
 
-	metaData, err = psdc.ConvertToMetaData(sdc)
-	if err != nil {
-		return nil, err
-	}
+	metaData = psdc.ConvertToMetaData(sdc)
 
-	return metaData, nil
+	return metaData
 }
 
 func (f *SubFunction) OrderIDByNumberSpecification(
@@ -56,10 +52,7 @@ func (f *SubFunction) OrderIDByNumberSpecification(
 		return nil, nil
 	}
 
-	dataKey, err := psdc.ConvertToOrderIDByNumberSpecificationKey(sdc, len(*billFromParty))
-	if err != nil {
-		return nil, err
-	}
+	dataKey := psdc.ConvertToOrderIDByNumberSpecificationKey(sdc, len(*billFromParty))
 
 	for i := range *billFromParty {
 		dataKey.BillFromParty[i] = (*billFromParty)[i]
@@ -80,7 +73,7 @@ func (f *SubFunction) OrderIDByNumberSpecification(
 	)
 
 	var count *int
-	err = f.db.QueryRow(
+	err := f.db.QueryRow(
 		`SELECT COUNT(*)
 		FROM DataPlatformMastersAndTransactionsMysqlKube.data_platform_orders_header_data
 		WHERE (BillFromParty, BillToParty) IN ( `+repeat+` )
@@ -117,10 +110,8 @@ func (f *SubFunction) OrderIDByRangeSpecification(
 	sdc *api_input_reader.SDC,
 	psdc *api_processing_data_formatter.SDC,
 ) (*[]api_processing_data_formatter.OrderID, error) {
-	dataKey, err := psdc.ConvertToOrderIDByRangeSpecificationKey(sdc)
-	if err != nil {
-		return nil, err
-	}
+	var err error
+	dataKey := psdc.ConvertToOrderIDByRangeSpecificationKey(sdc)
 
 	dataKey.BillFromPartyFrom = sdc.InvoiceDocumentInputParameters.BillFromPartyFrom
 	dataKey.BillFromPartyTo = sdc.InvoiceDocumentInputParameters.BillFromPartyTo
@@ -167,10 +158,7 @@ func (f *SubFunction) OrderIDByReferenceDocument(
 	sdc *api_input_reader.SDC,
 	psdc *api_processing_data_formatter.SDC,
 ) (*[]api_processing_data_formatter.OrderID, error) {
-	dataKey, err := psdc.ConvertToOrderIDByReferenceDocumentKey(sdc)
-	if err != nil {
-		return nil, err
-	}
+	dataKey := psdc.ConvertToOrderIDByReferenceDocumentKey(sdc)
 
 	dataKey.OrderID = sdc.InvoiceDocumentInputParameters.ReferenceDocument
 	dataKey.BillFromParty = append(dataKey.BillFromParty, (*sdc.InvoiceDocumentInputParameters.BillFromParty)[0])
@@ -237,10 +225,7 @@ func (f *SubFunction) DeliveryDocumentByNumberSpecification(
 		return nil, nil
 	}
 
-	dataKey, err := psdc.ConvertToDeliveryDocumentByNumberSpecificationKey(sdc, len(*billFromParty))
-	if err != nil {
-		return nil, err
-	}
+	dataKey := psdc.ConvertToDeliveryDocumentByNumberSpecificationKey(sdc, len(*billFromParty))
 
 	for i := range *billFromParty {
 		dataKey.BillFromParty[i] = (*billFromParty)[i]
@@ -261,7 +246,7 @@ func (f *SubFunction) DeliveryDocumentByNumberSpecification(
 	)
 
 	var count *int
-	err = f.db.QueryRow(
+	err := f.db.QueryRow(
 		`SELECT COUNT(*)
 		FROM DataPlatformMastersAndTransactionsMysqlKube.data_platform_delivery_document_header_data
 		WHERE (BillFromParty, BillToParty) IN ( `+repeat+` )
@@ -298,10 +283,7 @@ func (f *SubFunction) DeliveryDocumentByRangeSpecification(
 	sdc *api_input_reader.SDC,
 	psdc *api_processing_data_formatter.SDC,
 ) (*[]api_processing_data_formatter.DeliveryDocument, error) {
-	dataKey, err := psdc.ConvertToDeliveryDocumentByRangeSpecificationKey(sdc)
-	if err != nil {
-		return nil, err
-	}
+	dataKey := psdc.ConvertToDeliveryDocumentByRangeSpecificationKey(sdc)
 
 	dataKey.BillFromPartyFrom = sdc.InvoiceDocumentInputParameters.BillFromPartyFrom
 	dataKey.BillFromPartyTo = sdc.InvoiceDocumentInputParameters.BillFromPartyTo
@@ -309,7 +291,7 @@ func (f *SubFunction) DeliveryDocumentByRangeSpecification(
 	dataKey.BillToPartyTo = sdc.InvoiceDocumentInputParameters.BillToPartyTo
 
 	var count *int
-	err = f.db.QueryRow(
+	err := f.db.QueryRow(
 		`SELECT COUNT(*)
 		FROM DataPlatformMastersAndTransactionsMysqlKube.data_platform_delivery_document_header_data
 		WHERE BillFromParty BETWEEN ? AND ?
@@ -348,10 +330,7 @@ func (f *SubFunction) DeliveryDocumentByReferenceDocument(
 	sdc *api_input_reader.SDC,
 	psdc *api_processing_data_formatter.SDC,
 ) (*[]api_processing_data_formatter.DeliveryDocument, error) {
-	dataKey, err := psdc.ConvertToDeliveryDocumentByReferenceDocumentKey(sdc)
-	if err != nil {
-		return nil, err
-	}
+	dataKey := psdc.ConvertToDeliveryDocumentByReferenceDocumentKey(sdc)
 
 	dataKey.DeliveryDocument = sdc.InvoiceDocumentInputParameters.ReferenceDocument
 	dataKey.BillFromParty = append(dataKey.BillFromParty, (*sdc.InvoiceDocumentInputParameters.BillFromParty)[0])
@@ -416,10 +395,7 @@ func (f *SubFunction) CreateSdc(
 	wg := sync.WaitGroup{}
 	wg.Add(3)
 
-	psdc.MetaData, err = f.MetaData(sdc, psdc)
-	if err != nil {
-		return err
-	}
+	psdc.MetaData = f.MetaData(sdc, psdc)
 
 	go func(wg *sync.WaitGroup) {
 		defer wg.Done()
